@@ -37,3 +37,11 @@ Program will exit in case ISE is unreachable or if it fails to log-in thrice.
 
 License
 This project is licensed under GPL v3. You must agree to the terms and conditions mentioned under the LICENSE in order to use this program.
+Contribution to and usage of this program is open to all agreeing to the above license terms; Please follow the Code of Conduct listed at https://www.contributor-covenant.org/version/2/0/code_of_conduct/.
+
+
+__author__ = "Reetam"
+__email__ = "reetammandal@rediffmail.com"
+__version__ = "0.1"
+__copyright__ = "Copyright(c) 2020 remandal"
+__license__ = "GPL v3"

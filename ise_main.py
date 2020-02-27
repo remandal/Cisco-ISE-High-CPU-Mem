@@ -1,12 +1,6 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-"""ISE AD Script Console Script
 
-Due to instability in the AD connector between Cisco ISE and Microsoft Active Directory, triggered by highly tweaked and hardened AD configuration and change activities causing the AD nodes to flap, the connectivity between ISE and Active Directory can go down and stay down even after the specific failed AD node comes back up. The other AD servers are not used even though they stayed up. When this occurs, the only workaround to restore the ISE connectivity to AD servers is to restart the ISE application from the ISE CLI.
-
-This script was developed to automatically apply the workaround when the issue happens, a temporary workaround to be used until the issue is permanently fixed in software.
-
-"""
+"""Main Program"""
 
 import paramiko
 import time
@@ -24,11 +18,6 @@ except (SyntaxError, ModuleNotFoundError):
     print("Invalid input in env_file. Please complete the required fields in the proper format.")
     sys.exit(1)
 
-__author__ = "Charles Youssef"
-__email__ = "cyoussef@cisco.com"
-__version__ = "0.1.0"
-__copyright__ = "Copyright (c) 2018 Cisco and/or its affiliates."
-__license__ = "Cisco Sample Code License, Version 1.1"
 
 try:
     ise_address = env_user.ise_address
