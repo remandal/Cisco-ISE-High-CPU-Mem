@@ -22,3 +22,4 @@ recipient_email = ["", ""]
 
 smtp_server = ""  # String
 smtp_server_port =  # Integer
+

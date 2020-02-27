@@ -99,8 +99,8 @@ def send_email(from_email, from_email_password, to_email, smtp_email_server_addr
     msg = MIMEMultipart()
     msg['From'] = from_address
     msg['To'] = ', '.join(to_address)
-    msg['Subject'] = "Attention: ise application was restarted!"
-    body = "ise application was stopped/started at " + \
+    msg['Subject'] = "ATTENTION: Cisco ISE application services were restarted!"
+    body = "ISE application services were restarted at " + \
         str(datetime.datetime.now())
     msg.attach(MIMEText(body, 'plain'))
     email_text = msg.as_string()
