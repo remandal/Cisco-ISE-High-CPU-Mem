@@ -3,6 +3,7 @@
 """Main Program"""
 
 import paramiko
+import netmiko
 import time
 import datetime
 import socket
@@ -13,83 +14,80 @@ from email.MIMEMultipart import MIMEMultipart
 from email.MIMEText import MIMEText
 
 try:
-    import env_user
+    import env
 except (SyntaxError, ModuleNotFoundError):
-    print("Invalid input in env_file. Please complete the required fields in the proper format.")
+    print("Invalid input detected in the env file. Please fill all the fields in a correct format.")
     sys.exit(1)
 
 
 try:
-    ise_address = env_user.ise_address
-    ise_username = env_user.ise_username
-    ise_password = env_uesr.ise_password
+    ise_address = env.ise_address
+    ise_username = env.ise_username
+    ise_password = env.ise_password
 
-    probe_address = env_user.probe_address
-    probe_username = env_user.probe_username
-    probe_password = env_user.probe_password
+    probe_address = env.probe_address
+    probe_username = env.probe_username
+    probe_password = env.probe_password
 
-    sender_email = env_user.sender_email
-    # recipient_email is a list of comma-separated email addresses
-    recipient_email = env_user.recipient_email
-    smtp_server = env_user.smtp_server
-    smtp_server_port = env_user.smtp_server_port
+    sender_email = env.sender_email
+    recipient_email = env.recipient_email
+    smtp_server = env.smtp_server
+    smtp_server_port = env.smtp_server_port
+
 except (NameError, KeyError):
-    print("Invalid input in env_user file. Please complete the required fields in the proper format.")
+    print("Invalid input detected in the env file. Please fill all the fields in a correct format.")
     sys.exit(1)
 
 
 def restart_ise(ise_address, ise_username, ise_password, ise_port):
-    """This function is for restarting ISE server with the specified arguments
-    """
+    #Method to restarting ISE server
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
-        print("%s: Trying to connect to ISE..." % str(datetime.datetime.now()))
+        print("%s: Connecting to ISE..." % str(datetime.datetime.now()))
         ssh.connect(ise_address, port=ise_port, username=ise_username,
                     password=ise_password, look_for_keys=False, allow_agent=False)
     except socket.error:
-        print("%s: ISE is unreachable. Please verify IP connectivity to ISE and rerun the script."
+        print("%s: ISE seems to be unreachable. Please verify connectivity to ISE and re-run this program."
               % str(datetime.datetime.now()))
         sys.exit(1)
     except paramiko.ssh_exception.AuthenticationException:
-        print("%s: Unable to login to ISE. Please verify ISE is reachable, verify proper "
-              "username/password is set and rerun the script." % str(datetime.datetime.now()))
+        print("%s: Unable to log in to ISE. Please verify the username/password set and re-run this program." % str(datetime.datetime.now()))
         sys.exit(1)
     except paramiko.ssh_exception.NoValidConnectionsError:
-        print("%s: ISE is unreachable. Please verify IP connectivity to ISE and then rerun the script."
+        print("%s: ISE seems to be unreachable. Please verify connectivity to ISE and re-run this program."
               % str(datetime.datetime.now()))
         sys.exit(1)
     except paramiko.ssh_exception.SSHException:
-        print("%s: Unable to login to ISE. Please verify ISE is reachable, verify proper "
-              "username/password is set and rerun the script." % str(datetime.datetime.now()))
+        print("%s: Unable to log in to ISE. Please verify reachability to ISE, and correct username/password is set and re-run this program." % str(datetime.datetime.now()))
         sys.exit(1)
-    print("%s: Connected to ISE..." % str(datetime.datetime.now()))
-    # sleep timers are set based on lab testing response times:
+    print("%s: Successfully logged in to ISE..." % str(datetime.datetime.now()))
+    # timers here were set based on response times during lab tests:
     remote_conn = ssh.invoke_shell()
     remote_conn.send("\n")
     time.sleep(2)
     remote_conn.send("\n")
     time.sleep(2)
-    print("%s: Stopping ISE application..." % str(datetime.datetime.now()))
+    print("%s: Proceeding to stop ISE services..." % str(datetime.datetime.now()))
     remote_conn.send("application stop ise\n")
     time.sleep(300)
-    print("%s: ISE application has been stopped..." %
+    print("%s: ISE services have been terminated..." %
           str(datetime.datetime.now()))
     remote_conn.send("application start ise\n")
-    print("%s: ISE application is being restarted; Please wait..." %
+    print("%s: Proceeding to restart ISE services..." %
           str(datetime.datetime.now()))
     time.sleep(300)
-    print("%s: ISE application is being restarted; Please wait..." %
+    print("%s: ISE services are are being restarted..." %
           str(datetime.datetime.now()))
     time.sleep(300)
-    print("%s: ISE application has been restarted..." %
+    print("%s: ISE services have been restarted successfully..." %
           str(datetime.datetime.now()))
     ssh.close()
 
 
 def send_email(from_email, from_email_password, to_email, smtp_email_server_address, smtp_email_server_port):
-    """Function to send an email
-    """
+    #Function to send an email
+    
     email_server = smtplib.SMTP(
         smtp_email_server_address, smtp_email_server_port)
     email_server.ehlo()
