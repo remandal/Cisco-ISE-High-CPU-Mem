@@ -40,7 +40,7 @@ except (NameError, KeyError):
 
 
 def restart_ise(ise_address, ise_username, ise_password, ise_port):
-    #Method to restarting ISE server
+    #Method to restart ISE services
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
@@ -86,7 +86,7 @@ def restart_ise(ise_address, ise_username, ise_password, ise_port):
 
 
 def send_email(from_email, from_email_password, to_email, smtp_email_server_address, smtp_email_server_port):
-    #Function to send an email
+    #Method to notify users via email
     
     email_server = smtplib.SMTP(
         smtp_email_server_address, smtp_email_server_port)
@@ -114,7 +114,7 @@ def main():
     Email_password = getpass.getpass(
         prompt="Please enter the sender email password: ")
     while True:
-        print("%s: Starting the ise monitoring script using probe to %s." % (
+        print("%s: Starting the ISE monitoring program using probe to %s." % (
             str(datetime.datetime.now()), probe_address))
 
         failure_count = 0
