@@ -4,9 +4,9 @@
 
 #Please fill in the following information:
 
-ise_address = ""  # String
-ise_username = ""  # String
-ise_password = ""  # String
+ise_address = "10.127.196.249"  # String
+ise_username = "admin"  # String
+ise_password = "C!sco123"  # String
 
 
 probe_address = ""  # String
@@ -16,6 +16,7 @@ probe_password = ""  # String
 
 
 sender_email = ""  # String
+sender_password = "" 
 # Recipient_email is a list of comma-separated email addresses strings:
 recipient_email = ["", ""]
 

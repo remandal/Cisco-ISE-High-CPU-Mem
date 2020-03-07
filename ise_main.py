@@ -30,6 +30,7 @@ try:
     probe_password = env.probe_password
 
     sender_email = env.sender_email
+    sender_password = env.sender_password
     recipient_email = env.recipient_email
     smtp_server = env.smtp_server
     smtp_server_port = env.smtp_server_port
@@ -111,8 +112,7 @@ def send_email(from_email, from_email_password, to_email, smtp_email_server_addr
 
 def main():
 
-    Email_password = getpass.getpass(
-        prompt="Please enter the sender email password: ")
+    
     while True:
         print("%s: Starting the ISE monitoring program using probe to %s." % (
             str(datetime.datetime.now()), probe_address))
